@@ -10,7 +10,6 @@ version 0.01
 
     use 5.014;
     use Net::EC2::Tiny;
-    use Data::Dumper;
 
     my $ec2 = Net::EC2::Tiny->new(
           AWSAccessKey => $ENV{AWS_ACCESS_KEY},
@@ -27,7 +26,8 @@ version 0.01
           RegionName.1 => 'us-east-1',
     );
 
-    say Dumper $xml;
+    # prints ec2.us-east-1.amazonaws.com
+    say $xml->{regionInfo}->{item}->[0]->{regionEndpoint};
 
 # OVERVIEW
 
