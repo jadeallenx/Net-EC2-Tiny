@@ -33,7 +33,7 @@ use Moo;
 
   my $xml = $ec2->send(
         Action       => 'DescribeRegions',
-        RegionName.1 => 'us-east-1',
+      'RegionName.1' => 'us-east-1',
   );
 
   # prints ec2.us-east-1.amazonaws.com
