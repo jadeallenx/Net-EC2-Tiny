@@ -1,9 +1,8 @@
-inc/*
 *.swp
 MANIFEST
 META*
 MYMETA*
 Makefile*
-Net-Amazon-EC2*
+Net-EC2-Tiny*
 blib*
 pm_to_blib*
