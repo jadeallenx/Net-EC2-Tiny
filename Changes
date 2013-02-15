@@ -1,6 +1,8 @@
 Change history for Net-EC2-Tiny
 
 {{$NEXT}}
+
+0.02        2013-02-15
             Use more of the functions in HTTP::Tiny to
             eliminate URI and URI::Escape dependencies
 
