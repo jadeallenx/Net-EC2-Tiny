@@ -177,8 +177,14 @@ sub _sign {
         %args
     );
 
-    return $self->ua->post_form($self->base_url, \%params);
+    return \%params;
+}
 
+sub _request {
+    my $self   = shift;
+    my $params = shift;
+
+    return $self->ua->post_form( $self->base_url, $params );
 }
 
 =method send
@@ -194,9 +200,9 @@ and returned.
 =cut
 
 sub send {
-    my $self = shift;
-
-    my $response = $self->_sign(@_);
+    my $self     = shift;
+    my $request  = $self->_sign(@_);
+    my $response = $self->_request($request);
 
     if ( $response->{success} ) {
         my $xml = XMLin($response->{content}, 
