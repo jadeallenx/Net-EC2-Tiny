@@ -187,6 +187,19 @@ sub _request {
     return $self->ua->post_form( $self->base_url, $params );
 }
 
+sub _process {
+    my $self = shift;
+    my $data = shift;
+
+    my $xml = XMLin( $data,
+            ForceArray    => qr/(?:item|Errors)/i,
+            KeyAttr       => '',
+            SuppressEmpty => undef,
+    );
+
+    return $xml;
+}
+
 =method send
 
 This method expects key/value pair list with a required 'Action' key set to 
@@ -205,11 +218,7 @@ sub send {
     my $response = $self->_request($request);
 
     if ( $response->{success} ) {
-        my $xml = XMLin($response->{content}, 
-                ForceArray    => qr/(?:item|Errors)/i,
-                KeyAttr       => '',
-                SuppressEmpty => undef,
-        );
+        my $xml = $self->_process( $response->{content} );
         if ( defined $xml->{Errors} ) {
             croak "Error: $response->{content}\n";
         }
