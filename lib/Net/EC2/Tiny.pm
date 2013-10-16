@@ -177,8 +177,27 @@ sub _sign {
         %args
     );
 
-    return $self->ua->post_form($self->base_url, \%params);
+    return \%params;
+}
 
+sub _request {
+    my $self   = shift;
+    my $params = shift;
+
+    return $self->ua->post_form( $self->base_url, $params );
+}
+
+sub _process {
+    my $self = shift;
+    my $data = shift;
+
+    my $xml = XMLin( $data,
+            ForceArray    => qr/(?:item|Errors)/i,
+            KeyAttr       => '',
+            SuppressEmpty => undef,
+    );
+
+    return $xml;
 }
 
 =method send
@@ -194,16 +213,12 @@ and returned.
 =cut
 
 sub send {
-    my $self = shift;
-
-    my $response = $self->_sign(@_);
+    my $self     = shift;
+    my $request  = $self->_sign(@_);
+    my $response = $self->_request($request);
 
     if ( $response->{success} ) {
-        my $xml = XMLin($response->{content}, 
-                ForceArray    => qr/(?:item|Errors)/i,
-                KeyAttr       => '',
-                SuppressEmpty => undef,
-        );
+        my $xml = $self->_process( $response->{content} );
         if ( defined $xml->{Errors} ) {
             croak "Error: $response->{content}\n";
         }
