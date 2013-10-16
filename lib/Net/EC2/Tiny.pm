@@ -20,7 +20,7 @@ use Moo;
 
   my $ec2 = Net::EC2::Tiny->new(
         AWSAccessKey => $ENV{AWS_ACCESS_KEY},
-        AWSSecretKey => $ENV{AWS_SECRET_KEY}',
+        AWSSecretKey => $ENV{AWS_SECRET_KEY},
         region       => $ENV{AWS_REGION},
         debug        => 1,
   );
