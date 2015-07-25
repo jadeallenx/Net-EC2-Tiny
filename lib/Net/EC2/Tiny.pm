@@ -161,7 +161,8 @@ sub _sign {
     $sign_this .= "/\n";
 
 
-    $sign_this .= $self->ua->www_form_urlencode(\%sign_hash);
+    $sign_this .= $self->ua->www_form_urlencode( [ map { $_ => $sign_hash{$_} } sort { $a cmp $b } keys %sign_hash ] );
+
 
     warn "QUERY TO SIGN: $sign_this" if $self->debug;
     my $encoded = encode_base64(hmac_sha256($sign_this, $self->AWSSecretKey), '');
