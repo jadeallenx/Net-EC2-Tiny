@@ -1,6 +1,6 @@
 package Net::EC2::Tiny;
 
-use 5.014;
+use v5.10;
 
 use POSIX qw(strftime);
 use Digest::SHA qw(hmac_sha256);
